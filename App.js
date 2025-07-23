@@ -14,7 +14,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions = {{headerShown: false }} initialRouteName="Login">
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="BarcodeScreen" component={BarcodeScreen} />

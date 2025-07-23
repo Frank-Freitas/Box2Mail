@@ -1,59 +1,57 @@
-import { CameraView, CameraType, useCameraPermissions  } from "expo-camera";
-import { View, Text, TouchableOpacity } from "react-native";
-import React, {useEffect, useState} from "react"
+import { CameraView, useCameraPermissions, Camera } from "expo-camera";
+import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
 
 export default function QRcodeScreen() {
-  const {permission, requestPermission} = useCameraPermissions();
-  const [sideCam, setSideCam] = useState<CameraType>('back');
-  const [scanData, setScanData] = useStade("");
-  const [flashRole, setFlashRole]= useState("off");
+  const { permission, requestPermission } = useCameraPermissions();
+  const [scanData, setScanData] = useState("");
+  const [flashRole, setFlashRole] = useState("off");
 
-  const scannerResult  = (result) => {
-    setScanData(result.data);
-  }
-
-  const flashFlip = ()=>{
-    if(flashRole === "off"){
-      setFlashRole("on")
-    }else{
-      setFlashRole("off")
+  const requestPer = useEffect( () => {
+    if (requestPermission) {
+      requestPermission();
     }
-  } 
+  }, [requestPermission]);
 
-  // 1. Verificando o estado inicial de carregamento da permissão
-  if (permission === null) {
+  if (permission === false) {
     return (
-      <View style={styles.container}>
-        <Text>Verificando permissão da câmera...</Text>
+      <View>
+        <Text>Permissao de uso de camera nao concedida</Text>
+        <TouchableOpacity onPress={requestPer}>
+          <Text>permitir uso de camera</Text>
+        </TouchableOpacity>
       </View>
     );
   }
+  const scannerResult = (result) => {
+    setScanData(result.data);
+  };
 
-  // 2. Verificando se a permissão foi concedida
-  if (!permission.granted) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.permissionText}>
-          Precisamos da sua permissão para usar a câmera.
-        </Text>
-        {/* 3. Botão para solicitar a permissão */}
-        <Button onPress={requestPermission} title="Conceder permissão" />
-      </View>
-    );
-  }
+  const flashFlip = () => {
+    if (flashRole === "off") {
+      setFlashRole("on");
+    } else {
+      setFlashRole("off");
+    }
+  };
 
   return (
-    <View>
-      <CameraView barcodeScannerSettings={{
-        barcodeTypes:['qr'],
-      }} 
-      facing={sideCam}
-      flash={flashRole}
-      onBarcodeScanned={scannerResult}
+    <SafeAreaView>
+      <CameraView
+        barcodeScannerSettings={{
+          barcodeTypes: ["qr"],
+        }}
+        facing="back"
+        flash={flashRole}
+        onBarcodeScanned={scannerResult}
       >
-      <TouchableOpacity onPress={flashFlip}><Text>flash</Text></TouchableOpacity>  
+        <View>
+        <TouchableOpacity onPress={flashFlip}>
+          <Text>flash</Text>
+        </TouchableOpacity>
+        </View>
+        
       </CameraView>
-      
-    </View>
+    </SafeAreaView>
   );
 }

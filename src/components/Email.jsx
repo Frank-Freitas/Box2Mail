@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-  export default function Email({navigation}) {
+export default function Email({ navigation }) { // Adicionado navigation para consistência, mesmo que não usado
   const [senderEmail, setSenderEmail] = useState();
   const [recipientEmail, setRecipientEmail] = useState();
 
@@ -22,7 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
       <View>
         <Text>Destinatário</Text>
         <TextInput
-        placeholder="Email de destino"
+          placeholder="Email de destino"
           placeholderTextColor="#ccc"
           value={recipientEmail}
           onChangeText={setRecipientEmail}
@@ -35,9 +35,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 }
 
 const styles = StyleSheet.create({
-
-    boxSenttings: {
-      borderRadius: 10,
-      borderColor: '#1a5fdfff'
-    }
-})
+  boxSenttings: {
+    borderRadius: 10,
+    borderColor: '#1a5fdfff'
+  }
+});
