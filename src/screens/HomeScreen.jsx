@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   },
   modalArea: {
     backgroundColor: '#ffffff',
-    marginHorizontal: 30, // Corrigido para número
-    padding: 10, // Corrigido para número
+    marginHorizontal: 30, 
+    padding: 10, 
   },
   modalButton: {
     flexDirection: 'column',
