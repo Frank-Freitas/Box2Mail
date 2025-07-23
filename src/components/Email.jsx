@@ -2,8 +2,8 @@ import { useState } from "react";
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Email({ navigation }) { // Adicionado navigation para consistência, mesmo que não usado
-  const [senderEmail, setSenderEmail] = useState();
+export default function Email() { 
+    const [senderEmail, setSenderEmail] = useState();
   const [recipientEmail, setRecipientEmail] = useState();
 
   return (
