@@ -2,31 +2,66 @@ import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Email from "../components/Email";
+import Camera from "../components/Camera";
 
 export default function HomeScreen({ navigation }) {
   const [visible, setVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.background}>
-      <Modal visible={visible} transparent={true} animationType='fade'>
+      <Modal visible={visible} transparent={true} animationType="fade">
         <View style={styles.modalArea}>
           <Email />
-          <TouchableOpacity style={{ flexDirection: 'column' }} onPress={() => setVisible(false)}>
+          <TouchableOpacity
+            style={{ flexDirection: "column" }}
+            onPress={() => setVisible(false)}
+          >
             <Text style={styles.modalButton}>Salvar e fechar</Text>
           </TouchableOpacity>
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.buttonConfigs} onPress={() => setVisible(true)}>
+      <TouchableOpacity
+        style={styles.buttonConfigs}
+        onPress={() => setVisible(true)}
+      >
         <Text style={styles.buttonText}>modal</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonConfigs} onPress={() => navigation.navigate("QRcodeScreen")}>
-        <Text style={styles.buttonText}>Ler QR Code</Text>
+      <TouchableOpacity
+        style={styles.buttonConfigs}
+        onPress={() => {
+          navigation.navigate("Camera");
+          {
+            <Camera
+              types={[
+                "ean13",
+                "ean8",
+                "upc_e",
+                "upc_a",
+                "code39",
+                "code93",
+                "itf14",
+                "codabar",
+                "code128",
+              ]}
+            />;
+          }
+        }}
+      >
+        <Text style={styles.buttonText}>Ler Codigo de Barra</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonConfigs} onPress={() => navigation.navigate("BarcodeScreen")}>
-        <Text style={styles.buttonText}>Ler Codigo de Barra</Text>
+      <TouchableOpacity
+        style={styles.buttonConfigs}
+        onPress={() => {
+          navigation.navigate("Camera");
+          {
+            <Camera types={"qr"} />;
+          }
+        }}
+      >
+        <Text style={styles.buttonText}>Ler QR Code</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -38,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     padding: 30,
-    backgroundColor: "#d91e24"
+    backgroundColor: "#d91e24",
   },
   overlay: {
     paddingVertical: 10,
@@ -52,7 +87,7 @@ const styles = StyleSheet.create({
     width: "80%",
     alignItems: "center",
     paddingVertical: 15,
-    marginVertical: 5
+    marginVertical: 5,
   },
   buttonText: {
     color: "#fff",
@@ -60,14 +95,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   modalArea: {
-    backgroundColor: '#ffffff',
-    marginHorizontal: 30, 
-    padding: 10, 
+    backgroundColor: "#ffffff",
+    marginHorizontal: 30,
+    padding: 10,
   },
   modalButton: {
-    flexDirection: 'column',
-    backgroundColor: '#000000',
-    color: '#FFFFFF',
-    alignItems: "flex-end"
-  }
+    flexDirection: "column",
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    alignItems: "flex-end",
+  },
 });

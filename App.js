@@ -4,9 +4,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Login from "./src/screens/Login";
 import HomeScreen from "./src/screens/HomeScreen";
-import BarcodeScreen from "./src/screens/BarcodeScreen";
-import QRcodeScreen from "./src/screens/QRcodeScreen";
 import Email from "./src/components/Email";
+import Camera from "./src/components/Camera";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,9 +16,8 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="BarcodeScreen" component={BarcodeScreen} />
-          <Stack.Screen name="QRcodeScreen" component={QRcodeScreen} />
           <Stack.Screen name="Email" component={Email} />
+          <Stack.Screen name="Camera" component={Camera} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
