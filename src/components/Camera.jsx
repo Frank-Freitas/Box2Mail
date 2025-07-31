@@ -1,11 +1,20 @@
 import {CameraView, useCameraPermissions} from "expo-camera";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {SafeAreaView, StyleSheet, Text, View,TouchableOpacity} from "react-native";
 
-export default function Camera({types}) {
+export default function Camera({types,navigation}) {
   const [permission, requestPermission] = useCameraPermissions();
   const [dataFile, setDataFile] = useState("");
-  const [errorMsgs, setErrorMsg] = useState("");
+  const scanRef = useRef(false);
+  const scanData = (data)=>{
+    if(scanRef.current){
+      return
+    }
+    setDataFile(data);
+    scanRef.current = true;
+    console.log(`DEPOIS do return: ${data}`)
+    navigation.navigate( 'Login')
+  }
 
   useEffect(() => {
     if (!permission || !permission.granted) {
@@ -13,13 +22,6 @@ export default function Camera({types}) {
     }
   }, [permission]);
 
-  const dataScan = (data) => {
-    if(!data){
-        setErrorMsg("Dados nao encontrados")
-    }
-    setDataFile(data);
-    console.log(data)
-  };
 
   if (!permission) {
     return (
@@ -50,7 +52,7 @@ export default function Camera({types}) {
         barcodeScannerSettings={{
           barcodeTypes: [types],
         }}
-        onBarcodeScanned={dataScan}
+        onBarcodeScanned={scanData}
       />
     </SafeAreaView>
   );
