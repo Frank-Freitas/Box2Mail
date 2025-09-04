@@ -53,30 +53,25 @@ jobs:
       - name: Rodar script de diagnóstico
         shell: bash
         run: |
-          mkdir -p scripts
-          cat <<'EOS' > scripts/repo_diagnostico.sh
-#!/usr/bin/env bash
-set -euo pipefail
+          #!/usr/bin/env bash
+          set -euo pipefail
 
-mkdir -p .diagnostico
-echo "## Box2Mail - Diagnóstico" > .diagnostico/DIAGNOSTICO.md
-echo "" >> .diagnostico/DIAGNOSTICO.md
-date -u +"Relatório gerado em: %Y-%m-%d %H:%M:%SZ" >> .diagnostico/DIAGNOSTICO.md
-echo "" >> .diagnostico/DIAGNOSTICO.md
+          mkdir -p .diagnostico
+          echo "## Box2Mail - Diagnóstico" > .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+          date -u +"Relatório gerado em: %Y-%m-%d %H:%M:%SZ" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
 
-# 1) Mapa do repositório
-tree -a -I ".git|node_modules|build|dist|.dart_tool|.gradle|.idea|Pods|DerivedData" > .diagnostico/REPO_TREE.txt || true
-echo "### Estrutura de pastas" >> .diagnostico/DIAGNOSTICO.md
-echo "" >> .diagnostico/DIAGNOSTICO.md
-echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
-head -n 500 .diagnostico/REPO_TREE.txt >> .diagnostico/DIAGNOSTICO.md
-echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
-echo "" >> .diagnostico/DIAGNOSTICO.md
+          # 1) Mapa do repositório
+          tree -a -I ".git|node_modules|build|dist|.dart_tool|.gradle|.idea|Pods|DerivedData" > .diagnostico/REPO_TREE.txt || true
+          echo "### Estrutura de pastas" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+          echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
+          head -n 500 .diagnostico/REPO_TREE.txt >> .diagnostico/DIAGNOSTICO.md
+          echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
 
-# (todo o restante do script segue aqui — Git, Gitleaks, Node/Flutter checks etc.)
-EOS
-
-          bash scripts/repo_diagnostico.sh
+          # (todo o restante do script segue aqui...)
 
       - name: Publicar artefatos
         uses: actions/upload-artifact@v4
