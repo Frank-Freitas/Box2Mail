@@ -12,7 +12,7 @@ export default function Camera({types,navigation}) {
     }
     setDataFile(data);
     scanRef.current = true;
-    console.log(`DEPOIS do return: ${data}`)
+    console.log(`DADOS ATRIBUIDDOS COM SetDataFile: ${JSON.stringify(data)}`)
     navigation.navigate( 'Login')
   }
 

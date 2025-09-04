@@ -1,48 +1,18 @@
 {
   "expo": {
-    "name": "DibsEstoqueMail",
-    "slug": "DibsEstoqueMail",
+    "name": "Box2Mail",
+    "slug": "box2mail",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon/dibs_logo_transparente.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/icon/dibs_logo_transparente.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
+    "platforms": [
+      "android"
+    ],
     "android": {
-      "softwareKeyboardLayoutMode": "pan",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon/dibs_logo_transparente.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.frankfreitas.DibsEstoqueMail"
+      "package": "com.frankfreitas.box2mail"
     },
-    "web": {
-      
-    },
-    "plugins": [
-      [
-        "expo-camera",
-        {
-          "cameraPermission": "Permitir acesso a camera",
-          "microphonePermission": "Permitir acesso ao microfone",
-          "recordAudioAndroid": true
-        }
-      ]
-    ]
+    "extra": {
+      "eas": {
+        "projectId": "0a1b8ade-56cf-4221-9117-767a6d7b9ac9"
+      }
+    }
   }
-  
 }
