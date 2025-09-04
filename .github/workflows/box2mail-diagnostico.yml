@@ -1,0 +1,81 @@
+name: Box2Mail - Diagnóstico Profundo
+
+on:
+  workflow_dispatch: {} # habilita botão "Run workflow"
+  push:
+    paths:
+      - ".github/workflows/box2mail-diagnostico.yml"
+      - "package.json"
+      - "yarn.lock"
+      - "pnpm-lock.yaml"
+      - "pubspec.yaml"
+      - "android/**"
+      - "ios/**"
+      - "App.*"
+      - "src/**"
+      - "lib/**"
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node (se existir package.json)
+        if: hashFiles('package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: npm
+
+      - name: Set up Java (Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter (se existir pubspec.yaml)
+        if: hashFiles('pubspec.yaml') != ''
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Instalar utilitários
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq tree unzip
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_$(uname -s | tr '[:upper:]' '[:lower:]')_x64.tar.gz \
+            | sudo tar -xz -C /usr/local/bin gitleaks
+
+      - name: Rodar script de diagnóstico
+        shell: bash
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          mkdir -p .diagnostico
+          echo "## Box2Mail - Diagnóstico" > .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+          date -u +"Relatório gerado em: %Y-%m-%d %H:%M:%SZ" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+
+          # 1) Mapa do repositório
+          tree -a -I ".git|node_modules|build|dist|.dart_tool|.gradle|.idea|Pods|DerivedData" > .diagnostico/REPO_TREE.txt || true
+          echo "### Estrutura de pastas" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+          echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
+          head -n 500 .diagnostico/REPO_TREE.txt >> .diagnostico/DIAGNOSTICO.md
+          echo "\`\`\`" >> .diagnostico/DIAGNOSTICO.md
+          echo "" >> .diagnostico/DIAGNOSTICO.md
+
+          # (todo o restante do script segue aqui...)
+
+      - name: Publicar artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: box2mail-diagnostico
+          path: .diagnostico/
+          if-no-files-found: error
