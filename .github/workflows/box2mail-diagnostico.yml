@@ -1,7 +1,7 @@
 name: Box2Mail - Diagnóstico Profundo
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
   push:
     paths:
       - ".github/workflows/box2mail-diagnostico.yml"
