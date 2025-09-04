@@ -4,9 +4,13 @@
     "slug": "box2mail",
     "version": "1.0.0",
     "platforms": [
-      "android"
+      "android",
+      "web"
     ],
     "android": {
+      "package": "com.frankfreitas.box2mail"
+    },
+    "web": {
       "package": "com.frankfreitas.box2mail"
     },
     "extra": {
